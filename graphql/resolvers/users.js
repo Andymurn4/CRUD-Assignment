@@ -42,19 +42,14 @@ module.exports = {
                 token
             };
         },
-         async register(
-            _,
-            {
-                registerInput: {username, email, password, confirmedPassword}
-            },
-        ){
+         async register(_,{registerInput: {username, email, password, confirmedPassword}}){
             //TODO: Validate user data
-            const {valid, errors}= validateRegisterInput(username,email,password,confirmedPassword);
+            const {valid, errors}= validateRegisterInput(username,email,password,confirmedPassword)
             if(!valid){
                 throw new UserInputError('Errors', {errors});
             }
             //TODO: Make sure user doesnt already exist
-            const user = User.findOne({ username });
+            const user = await User.findOne({ username });
             if(user){
                 throw new UserInputError('Username is taken',{
                     errors:{
@@ -84,3 +79,4 @@ module.exports = {
         }
     }
 };
+
